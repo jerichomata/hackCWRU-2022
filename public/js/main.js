@@ -154,7 +154,7 @@ function configureUser(userData) {
   var bankAccount;
   userData["User"]["accounts"].forEach( function( account )
   {
-    if( account['subtype'] == 'checking' || account['subtype'] == 'Checking' )
+    if( account['subtype'] == 'checking' )
       bankAccount = account;
   })
   const user = bankAccount["owners"][0];
@@ -190,7 +190,7 @@ function configureBalance(balanceData, transactionsData) {
   var bankAccount;
   balanceData["Balance"]["accounts"].forEach( function( account )
   {
-    if( account['subtype'] == 'checking' || account['subtype'] == 'Checking' )
+    if( account['subtype'] == 'checking' )
       bankAccount = account;
   })
   if( bankAccount )
@@ -207,7 +207,7 @@ function getAvailableCredit(balanceData) {
   var bankAccount;
   balanceData["Balance"]["accounts"].forEach( function( account )
   {
-    if( account['subtype'] == 'credit' || account['subtype'] == 'Credit' )
+    if( account['subtype'] == 'credit card' )
       bankAccount = account;
   })
   if( bankAccount )
