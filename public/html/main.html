@@ -416,14 +416,19 @@
         const user = await fetch("/api/user", {
           method: "GET",
         });
-
         const userData = await user.json();
+
+        const transactions = await fetch("/api/transactions", {
+          method: "GET",
+        });
+        const transactionsData = await transactions.json();
+
         //Render response data
         console.log(balanceData)
-        // configureBalance(balanceData)
         console.log(userData)
+        console.log(transactionsData)
         configureUser(userData);
-        retrieveBalance(balanceData);
+        configureBalance(balanceData, transactionsData);
         getAvailableCredit(balanceData);
       };
 

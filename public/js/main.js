@@ -186,7 +186,7 @@ function configureUser(userData) {
 
 const accountBalance = document.getElementById("account-balance-num");
 
-function retrieveBalance(balanceData) {
+function configureBalance(balanceData, transactionsData) {
   var bankAccount;
   balanceData["Balance"]["accounts"].forEach( function( account )
   {

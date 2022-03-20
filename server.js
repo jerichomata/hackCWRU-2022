@@ -83,8 +83,48 @@ app.get("/api/user", async (req, res, next) => {
   res.json({
     User: userResponse.data,
   });
-});
+})
 
+app.get("/api/transactions", async (req, res, next) => {
+  const access_token = req.session.access_token;
+  var td = new Date();
+  var end_date = td.toLocaleDateString('en-GB').split('/').reverse().join('-')
+  td.setMonth(td.getMonth() - 12);
+  var start_date = td.toLocaleDateString('en-GB').split('/').reverse().join('-')
+  console.log(end_date)
+  console.log(start_date)
+  try {
+    const transactionsResponse = await client.transactionsGet(
+    { 
+      access_token: access_token, 
+      start_date: start_date, 
+      end_date: end_date 
+    });
+    let transactions = transactionsResponse.data.transactions;
+    const total_transactions = transactionsResponse.data.total_transactions;
+    var paginatedResponse;
+    while (transactions.length < total_transactions) {
+      paginatedResponse = await client.transactionsGet(
+      {
+        access_token: access_token,
+        start_date: start_date, 
+        end_date: end_date,
+        options: {
+          offset: transactions.length,
+        },
+      });
+      transactions = transactions.concat(
+        paginatedResponse.data.transactions,
+      );
+    }
+    res.json({
+      Transactions: transactions.data,
+    });
+  } catch(err) {
+    // handle error
+    console.log(err)
+  };
+});
 // Checks whether the user's account is connected, called
 // in index.html when redirected from oauth.html
 app.get("/api/is_account_connected", async (req, res, next) => {
